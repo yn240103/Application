@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/app.css}" rel="stylesheet" />
+    <script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}" defer></script>
+    <script th:src="@{/js/app.js}" defer></script>
+    <title>メンバー登録</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${member.memberId} ? 'メンバー編集' : 'メンバー新規登録'" class="mb-4"></h1>
+        <form th:action="@{/members/signup}" th:object="${member}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{memberId}" />
+            <div th:if="${selectedArtistId}">
+                <input type="hidden" th:field="*{artistId}" th:value="${selectedArtistId}" />
+            </div>
+            <div th:unless="${selectedArtistId}" class="form-group">
+                <label for="artistId">所属グループ:</label>
+                <select th:field="*{artistId}" class="form-control" required>
+                    <option th:each="artist : ${artists}" th:value="${artist.artistId}" th:text="${artist.artistName}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="memberName">メンバー名:</label>
+                <input type="text" th:field="*{memberName}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="memberHiraganaName">メンバー名（ひらがな）:</label>
+                <input type="text" th:field="*{memberHiraganaName}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="memberBirthday">誕生日:</label>
+                <input type="date" th:field="*{memberBirthday}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="imageFile">写真アップロード:</label>
+                <input type="file" name="imageFile" id="imageFile" accept="image/*" class="form-control-file" />
+            </div>
+            <button type="submit" class="btn btn-primary">登録</button>
+            <a th:href="@{/artists}" class="btn btn-secondary">キャンセル</a>
+        </form>
+    </div>
+</body>
+</html>

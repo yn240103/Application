@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/app.css}" rel="stylesheet" />
+    <script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}" defer></script>
+    <script th:src="@{/js/app.js}" defer></script>
+    <title>アーティスト詳細</title>
+</head>
+<body>
+    <div class="container mt-5">
+       
+
+        <h2 class="mb-3">メンバー一覧</h2>
+        <div class="d-flex justify-content-between mb-3">
+            <form th:action="@{/artists/{id}(id=${artist.artistId})}" method="get" class="form-inline">
+                <input type="text" name="memberKeyword" class="form-control mr-2" placeholder="メンバー名で検索" />
+                <button type="submit" class="btn btn-outline-success">検索</button>
+            </form>
+            <a th:href="@{/members/signup(artistId=${artist.artistId})}" class="btn btn-primary">新規登録</a>
+        </div>
+        
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>写真</th>
+                    <th>名前</th>
+                    <th>ふりがな</th>
+                    <th>誕生日</th>
+                    <th>年齢</th>
+                    <th class="text-center">編集</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member : ${members}">
+                    <td><img th:if="${member.memberImage != null}" th:src="'data:image/jpeg;base64,' + ${#strings.base64Encode(member.memberImage)}" style="width: 100px; height: auto;" /></td>
+                    <td th:text="${member.memberName}"></td>
+                    <td th:text="${member.memberHiraganaName}"></td>
+                    <td th:text="${member.memberBirthday}"></td>
+                    <td th:text="${member.age}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/members/update/{id}(id=${member.memberId}, artistId=${member.artistId})}" class="btn btn-success btn-sm">編集</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

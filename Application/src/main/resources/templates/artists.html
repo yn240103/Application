@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/app.css}" rel="stylesheet" />
+    <script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}" defer></script>
+    <script th:src="@{/js/app.js}" defer></script>
+    <title>アーティスト一覧</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">アーティスト一覧</h1>
+        <div class="d-flex justify-content-between mb-3">
+            <form th:action="@{/artists}" method="get" class="form-inline">
+                <input type="text" name="keyword" class="form-control mr-2" placeholder="アーティスト名で検索" />
+                <button type="submit" class="btn btn-outline-success">検索</button>
+            </form>
+            <a th:href="@{/artists/signup}" class="btn btn-primary">新規登録</a>
+        </div>
+        
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>画像</th>
+                    <th>アーティスト名</th>
+                    <th>アーティスト名（読み）</th>
+                    <th>公式Web</th>
+                    <th class="text-center">詳細</th>
+                    <th class="text-center">編集</th>
+                    <th class="text-center">削除</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="artist : ${artists}">
+                    <td><img th:if="${artist.artistArtUrl != null && !artist.artistArtUrl.startsWith('http')}" th:src="@{${artist.artistArtUrl}}" style="width: 100px; height: auto;" /></td>
+                    <td th:text="${artist.artistName}"></td>
+                    <td th:text="${artist.artistHiraganaName}"></td>
+                    <td><a th:href="@{${artist.artistArtUrl}}" th:text="${artist.artistArtUrl}"></a></td>
+                    <td class="text-center">
+                        <a th:href="@{/artists/{id}(id=${artist.artistId})}" class="btn btn-info btn-sm">詳細</a>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/artists/update/{id}(id=${artist.artistId})}" class="btn btn-success btn-sm">編集</a>
+                    </td>
+                    <td class="text-center">
+                        <form th:action="@{/artists/{id}(id=${artist.artistId})}" th:method="delete">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('本当に削除しますか？');">削除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
