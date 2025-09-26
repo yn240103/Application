@@ -27,7 +27,7 @@
                     <th>アーティスト名（読み）</th>
                     <th>公式Web</th>
                     <th class="text-center">詳細</th>
-                    <th class="text-center">編集</th>
+                    <th class="text-center">更新</th>
                     <th class="text-center">削除</th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@
                         <a th:href="@{/artists/{id}(id=${artist.artistId})}" class="btn btn-info btn-sm">詳細</a>
                     </td>
                     <td class="text-center">
-                        <a th:href="@{/artists/update/{id}(id=${artist.artistId})}" class="btn btn-success btn-sm">編集</a>
+                        <a th:href="@{/artists/update/{id}(id=${artist.artistId})}" class="btn btn-success btn-sm">更新</a>
                     </td>
                     <td class="text-center">
                         <form th:action="@{/artists/{id}(id=${artist.artistId})}" th:method="delete">
